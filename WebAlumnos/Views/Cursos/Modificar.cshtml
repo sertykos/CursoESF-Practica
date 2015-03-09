@@ -1,0 +1,26 @@
+﻿@model WebAlumnos.Models.Curso
+@{
+    ViewBag.Title = "Modificar";
+}
+
+<h2>Modificar</h2>
+
+@Html.ValidationSummary(false)
+
+@using (Html.BeginForm())
+{
+    
+    @Html.HiddenFor(o => o.id)
+    <!--Escondemos el id ya que sin el luego no podria validar-->
+    
+    @Html.LabelFor(o => o.nombre)
+    @Html.EditorFor(o => o.nombre)
+    <br/>
+    @Html.LabelFor(o => o.inicio)
+    @Html.EditorFor(o => o.inicio)
+    <bt/>
+    @Html.LabelFor(o => o.fin)
+    @Html.EditorFor(o => o.fin)
+
+    <input type="submit" value="Modificar curso"/>
+}

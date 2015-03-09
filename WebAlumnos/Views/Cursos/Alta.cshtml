@@ -1,0 +1,26 @@
+﻿@model WebAlumnos.Models.Curso
+@{
+    ViewBag.Title = "Alta";
+}
+
+<h2 style="font-family: sans-serif">Nuevo curso</h2>
+
+@Html.ValidationSummary(false)  <!--Ponemos "(false)" porque por defecto omite el tipado de cada campo, y NO queremos que lo omita--> 
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <!--Con esto evitamos que alguien pueda "trampear" el formulario saltandose las validaciones-->
+    
+    @Html.LabelFor(o => o.nombre)
+    @Html.EditorFor(o => o.nombre)
+    <!--"EditorFor" establece la manera predeterminada al dato, pero podemos poner la que uqeramos, por ejemplo "TextBoxFor"-->
+    <br/>
+    @Html.LabelFor(o => o.inicio)
+    @Html.EditorFor(o => o.inicio)
+    // @Html.ValidationMessageFor(o => o.inicio) - Como "@Html.ValidationSummary(false)" pero para cada campo.
+    <br />
+    @Html.LabelFor(o => o.fin)
+    @Html.EditorFor(o => o.fin)
+    <br/>
+    <input type="submit" value="Enviar datos" />
+}

@@ -8,13 +8,23 @@
 
 <h2>Listado de cursos</h2>
 
+@Html.ActionLink("Nuevo Curso", "Alta")
+
 @foreach (var item in Model)
 {
-    <div  style="@(par ? "background:silver;" : "background:gray;"); float: left; width: 100%;">
+    <div style="@(par ? "background:silver;" : "background:gray;"); float: left; width: 100%;">
 
-        <h3>@item.nombre</h3><br/>
-        <h4>de @item.inicio.ToShortDateString() a
-            @item.fin.ToShortDateString()</h4>
+    <h3>@item.nombre</h3><br/>
+    <h4>de @item.inicio.ToShortDateString() a
+        @item.fin.ToShortDateString()</h4>
+
+    <div style="float: left;">
+
+        @Html.ActionLink("Borrar curso", "Borrar", new{id = item.id})
+
+        @Html.ActionLink("Modificar curso", "Modificar", new{id = item.id})
+            
+    </div>
 
         <div style="float: left">
 

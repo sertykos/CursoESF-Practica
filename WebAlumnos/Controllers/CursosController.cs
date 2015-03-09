@@ -24,12 +24,63 @@ namespace WebAlumnos.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Alta(Curso model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                db.Curso.Add(model);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
         }
 
-        // Cuando destruya el controlador cierra la conexion, Evitamos usar "using" daba problemas con el "lazy loading".
+        public ActionResult Borrar(int id)
+        {
+            var model = db.Curso.Find(id);
+
+            try
+            {
+                db.Curso.Remove(model);
+                db.SaveChanges();
+            }
+            catch (Exception ee)
+            {
+               Console.WriteLine(ee);
+            }
+
+            return RedirectToAction("Index");
+
+        }
+
+        public ActionResult Modificar(int id)
+        {
+            var curso = db.Curso.Find(id);
+
+            return View(curso);
+        }
+
+        [HttpPost]
+        public ActionResult Modificar(Curso model)
+        {
+            if (ModelState.IsValid)
+            {
+                var m = db.Curso.Find(model.id);
+                m.nombre = model.nombre;
+                m.inicio = model.inicio;
+                m.fin = model.fin;
+
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        // Cuando destruya el controlador cierra la conexion. Evitamos usar "using", que daba problemas con el "lazy loading".
         protected override void Dispose(bool disposing)
         {
          base.Dispose(disposing);

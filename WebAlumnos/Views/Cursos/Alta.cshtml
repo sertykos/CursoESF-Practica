@@ -11,7 +11,7 @@
     @Html.AntiForgeryToken()
     <!--Con esto evitamos que alguien pueda "trampear" el formulario saltandose las validaciones-->
     
-    @Html.LabelFor(o => o.nombre)
+    @Html.LabelFor(o => o.nombre, "Nombre del curso:")
     @Html.EditorFor(o => o.nombre)
     <!--"EditorFor" establece la manera predeterminada al dato, pero podemos poner la que uqeramos, por ejemplo "TextBoxFor"-->
     <br/>

@@ -7,6 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
 namespace WebAlumnos.Models
 {
     using System;
@@ -19,10 +22,17 @@ namespace WebAlumnos.Models
             this.Profesores_Curso = new HashSet<Profesores_Curso>();
             this.Alumnos = new HashSet<Alumnos>();
         }
-    
+
+        // Aunque el campo ya esta tipado, tambien se puede poner requisitos aqui.
         public int id { get; set; }
+        [Required]
+        [MinLength(3)]
+        [DataType(DataType.Date)]
         public string nombre { get; set; }
+        [DisplayName("Fecha de inicio")]
+        [DataType(DataType.Date)]
         public System.DateTime inicio { get; set; }
+        [DisplayName("Fecha de finalizacion")]
         public System.DateTime fin { get; set; }
     
         public virtual ICollection<Profesores_Curso> Profesores_Curso { get; set; }

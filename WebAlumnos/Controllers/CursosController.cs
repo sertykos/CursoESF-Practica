@@ -23,6 +23,11 @@ namespace WebAlumnos.Controllers
             return View(new Curso());
         }
 
+        public ActionResult ListadoAjax()
+        {
+            return PartialView("Listado_cursos", db.Curso);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Alta(Curso model)
@@ -78,6 +83,22 @@ namespace WebAlumnos.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AltaAjax(Curso model)
+        {
+            db.Curso.Add(model);
+
+            try
+            {
+                db.SaveChanges();
+                return Json("OK");
+            }
+            catch (Exception ee)
+            {
+                return Json("Error");
+            }
         }
 
         // Cuando destruya el controlador cierra la conexion. Evitamos usar "using", que daba problemas con el "lazy loading".

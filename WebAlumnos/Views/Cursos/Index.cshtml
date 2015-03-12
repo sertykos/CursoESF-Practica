@@ -3,55 +3,86 @@
 
 @{
     ViewBag.Title = "Index";
-    bool par = false;
 }
 
 <h2>Listado de cursos</h2>
 
-@Html.ActionLink("Nuevo Curso", "Alta")
+@*Html.ActionLink("Nuevo Curso", "Alta")*@
 
-@foreach (var item in Model)
-{
-    <div style="@(par ? "background:silver;" : "background:gray;"); float: left; width: 100%;">
+<a href="#" id="lnkAddCurso">Nuevo curso</a>
 
-    <h3>@item.nombre</h3><br/>
-    <h4>de @item.inicio.ToShortDateString() a
-        @item.fin.ToShortDateString()</h4>
+<div id="contenido">
+    @Html.Partial("Listado_cursos", Model)
+</div>
 
-    <div style="float: left;">
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Nuevo curso</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="txtNombre" placeholder="Nombre"/>
+                <br/>
+                <input type="date" id="txtInicio" placeholder="Inicio"/>
+                <br />
+                <input type="date" id="txtFin" placeholder="Fin" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" id="btnGuardar" class="btn btn-primary">Guardar curso</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-        @Html.ActionLink("Borrar curso", "Borrar", new{id = item.id})
+<script>
 
-        @Html.ActionLink("Modificar curso", "Modificar", new{id = item.id})
-            
-    </div>
+    function alta() {
 
-        <div style="float: left">
+        var data = {
+            nombre: $("#txtNombre").val(),
+            inicio: $("#txtInicio").val(),
+            fin: $("#txtFin").val()
+        };
 
-            <h3>Profesores</h3>
+        $.ajax({
 
-            <ul>
-                @foreach (var profe in item.Profesores_Curso)
-                {
-                    <li>@profe.Profesores.nombre @profe.Profesores.apellidos</li>
+            type: "POST",
+            url:"/Cursos/AltaAjax",
+            data: JSON.stringify(data),
+            dataType: "json",
+            contentType: "application/json",
+            success: function(res) {
+
+                if (res === "OK") {
+
+                    $("#contenido").load("/Cursos/ListadoAjax");
+                    alert("Todo bien!");
+                    $(".modal").modal("hide");
+
+                } else {
+
+                    alert("Desastre nuclear !!!");
+
                 }
-            </ul>
+            }
 
-        </div>
+        });
 
-        <div style="float: left">
+    };
 
-            <h3>Alumnos</h3>
+    $(document).ready(function() {
 
-            <ul>
-                @foreach (var alumno in item.Alumnos)
-                {
-                    <li>@alumno.nombre @alumno.apellidos</li>
-                }
-            </ul>
+        $("#lnkAddCurso").click(function() {
 
-        </div>
+            $(".modal").modal();
 
-    </div>
-    par = !par;
-}
+        });
+
+        $("#btnGuardar").click(alta);
+
+    });
+
+</script>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebAlumnos.Models.Curso>
+
+@{
+    bool par = false;
+}
+
+@foreach (var item in Model)
+{
+    <div style="@(par ? "background:silver;" : "background:gray;"); float: left; width: 100%;">
+
+        <h3>@item.nombre</h3><br />
+        <h4>
+            de @item.inicio.ToShortDateString() a
+            @item.fin.ToShortDateString()
+        </h4>
+
+        <div style="float: left;">
+
+            @Html.ActionLink("Borrar curso", "Borrar", new { id = item.id })
+
+            @Html.ActionLink("Modificar curso", "Modificar", new { id = item.id })
+
+        </div>
+
+        <div style="float: left">
+
+            <h3>Profesores</h3>
+
+            <ul>
+                @foreach (var profe in item.Profesores_Curso)
+                {
+                    <li>@profe.Profesores.nombre @profe.Profesores.apellidos</li>
+                }
+            </ul>
+
+        </div>
+
+        <div style="float: left">
+
+            <h3>Alumnos</h3>
+
+            <ul>
+                @foreach (var alumno in item.Alumnos)
+                {
+                    <li>@alumno.nombre @alumno.apellidos</li>
+                }
+            </ul>
+
+        </div>
+
+    </div>
+                par = !par;
+}
